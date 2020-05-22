@@ -16,6 +16,8 @@ app.use(logger('dev'));
 app.get('/', (_req, res) => res.status(301).redirect('/api'));
 app.use('/api', Router);
 
+
+
 app.use('*', (req, res) => res.status(404).json({
     status: 'Error',
     error: 'Sorry!!, the page you are looking for cannot be found',
