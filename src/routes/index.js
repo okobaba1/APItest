@@ -1,5 +1,9 @@
 import express from 'express';
 import Books from '../controllers/books';
+import valid from '../middleware/valid';
+
+
+const { validator, validationHandler } = valid;
 
 const Router = express.Router();
 
@@ -11,5 +15,6 @@ Router.get('/v1', (req, res) => res.status(200).json({
 
 
 Router.get('/external-books', Books.external);
+Router.post('/v1/books', validator, validationHandler, Books.createBook);
 
 export default Router;
