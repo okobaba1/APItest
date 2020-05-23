@@ -16,5 +16,7 @@ Router.get('/v1', (req, res) => res.status(200).json({
 
 Router.get('/external-books', Books.external);
 Router.post('/v1/books', validator, validationHandler, Books.createBook);
+Router.get('/v1/books', Books.getAllbooks);
+
 
 export default Router;

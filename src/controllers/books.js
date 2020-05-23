@@ -73,6 +73,32 @@ const Books = {
                 message: (error.message),
             });
         }
+    },
+
+    async getAllbooks(req, res) {
+        try {
+            const getBooks = {
+                text: 'SELECT * FROM books'
+            };
+            const { rows } = await db.query(getBooks);
+            if (!rows[0]){
+                return res.status(200).json({
+                    status_code: 200,
+                    status: 'success',
+                    data: [],
+                });
+            } 
+            return res.status(200).json({
+                status_code: 200,
+                status: 'success',
+                data: rows,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 'error',
+                message: (error.message),
+            });
+        }
     }
 }
 

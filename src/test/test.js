@@ -103,6 +103,18 @@ describe('Book', () => {
             done();
           });
       });
+      it('Get all db books', (done) => {
+        chai.request(app)
+          .get('/api/v1/books')
+          .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body).be.an('object');
+            expect(res.body.status).be.a('string');
+            expect(res.body.status_code).be.a('number');
+            assert.equal(res.body.status, 'success');
+            done();
+        });
+    });
 
 
 });
