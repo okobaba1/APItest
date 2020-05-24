@@ -162,5 +162,53 @@ describe('Book', () => {
       });
     });
 
+    it('No book found', (done) => {
+      chai.request(app)
+        .delete('/api/v1/books/98')
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'error');
+          done();
+      });
+    });
+
+
+    it('create books', (done) => {
+      const book = {
+        name: 'Okobaba Victor',
+        country: 'Portugal',
+        isbn: 84995-2,
+        release_date: '2019-07-24',
+        number_of_pages: 26000,
+        authors: 'luke madu',
+        publisher: 'Idiot photo'
+      };
+      chai.request(app)
+        .post('/api/v1/books')
+        .send(book)
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+
+    it('No book found', (done) => {
+      chai.request(app)
+        .delete('/api/v1/books/1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+    
+
 
 });
