@@ -109,22 +109,20 @@ const Books = {
                 values: [id],
             };
             const { rows } = await db.query(checkBook);
-              if (!rows[0]) {
+            if (!rows[0]) {
                 return res.status(404).json({
                   status: 'error',
                   error: 'No book found',
                 });
-              }
+            }
             let newObj = {};
             Object.keys(req.body).filter(( item ) => req.body[item] && req.body[item].trim().length > 0)
                         .forEach((item2)=> {newObj[item2] = req.body[item2]});
             
-            console.log(newObj);
             Object.keys(newObj)[0]
             const keys = Object.keys(newObj);
             const value = Object.values(newObj);
 
-            console.log(keys[0])
             if (keys[0]){
                 const updateBook = {
                     text: `UPDATE books SET ${keys[0]} = $1 WHERE id = ${id} RETURNING *`,
@@ -145,6 +143,39 @@ const Books = {
                 error: 'No input',
             });
 
+        } catch (error) {
+            return res.status(500).json({
+                status: 'error',
+                message: (error.message),
+            });
+        }
+    },
+
+    async deleteBook(req, res) {
+        try {
+            const { id } = req.params;
+            const checkBook = {
+                text: 'SELECT * FROM books where id = $1',
+                values: [id],
+            };
+            const { rows } = await db.query(checkBook);
+            if (!rows[0]) {
+                return res.status(404).json({
+                  status: 'error',
+                  error: 'No book found',
+                });
+            }
+            const deleteBook = {
+                text: 'DELETE FROM books WHERE id = $1',
+                values: [id],
+            };
+            await db.query(deleteBook);
+            return res.status(200).json({
+                status_code: 204,
+                status: 'success',
+                message: `The book  was deleted successfully`,
+                data: [],
+            });
         } catch (error) {
             return res.status(500).json({
                 status: 'error',
