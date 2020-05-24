@@ -115,17 +115,19 @@ const Books = {
                   error: 'No book found',
                 });
             }
+            
             let newObj = {};
             Object.keys(req.body).filter(( item ) => req.body[item] && req.body[item].trim().length > 0)
-                .forEach((item2)=> {newObj[item2] = req.body[item2]});
+            .forEach((item2)=> {newObj[item2] = req.body[item2]});
+            const formattedObject = {...rows[0], ...newObj};
+            const {name, isbn, authors, number_of_pages, publisher, country, release_date} = formattedObject;
+            console.log(formattedObject);
             
-            const keys = Object.keys(newObj);
-            const value = Object.values(newObj);
 
-            if (keys[0]){
+            if (Object.keys(newObj).length){
                 const updateBook = {
-                    text: `UPDATE books SET ${keys[0]} = $1 WHERE id = ${id} RETURNING *`,
-                    values: [value[0]],
+                    text: `UPDATE books SET name = $1, isbn = $2, authors = $3, number_of_pages = $4, publisher = $5, country =$6, release_date = $7 WHERE id = ${id} RETURNING *`,
+                    values: [name, isbn, authors, number_of_pages, publisher, country, release_date],
                 };
                 const { rows: update } = await db.query(updateBook);
                 
