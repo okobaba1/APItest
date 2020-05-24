@@ -60,7 +60,7 @@ describe('Book', () => {
         });
     });
 
-    it('create books', (done) => {
+    it('create book', (done) => {
         const book = {
           name: 'Okobaba Victor',
           country: 'Portugal',
@@ -81,6 +81,51 @@ describe('Book', () => {
             done();
         });
     });
+
+    it('create books', (done) => {
+      const book = {
+        name: 'Okobaba Victor',
+        country: 'Portugal',
+        isbn: 84995-2,
+        release_date: '2019-07-24',
+        number_of_pages: 26000,
+        authors: 'luke madu',
+        publisher: 'Idiot photo'
+      };
+      chai.request(app)
+        .post('/api/v1/books')
+        .send(book)
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+
+    it('create books', (done) => {
+      const book = {
+        name: 'Okobaba Victor',
+        country: 'Portugal',
+        isbn: 849988676205-2,
+        release_date: '2019-07-24',
+        number_of_pages: 26000,
+        authors: 'luke madu',
+        publisher: 'Idiot photo'
+      };
+      chai.request(app)
+        .post('/api/v1/books')
+        .send(book)
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+
 
     it('Already Created books', (done) => {
         const book = {
@@ -121,7 +166,7 @@ describe('Book', () => {
         name: 'Oko Vic',
       };
       chai.request(app)
-        .patch('/api/v1/books/1')
+        .patch('/api/v1/books/2')
         .send(detail)
         .end((err, res) => {
           res.should.have.status(200);
@@ -175,31 +220,10 @@ describe('Book', () => {
     });
 
 
-    it('create books', (done) => {
-      const book = {
-        name: 'Okobaba Victor',
-        country: 'Portugal',
-        isbn: 84995-2,
-        release_date: '2019-07-24',
-        number_of_pages: 26000,
-        authors: 'luke madu',
-        publisher: 'Idiot photo'
-      };
+    
+    it('Delete book', (done) => {
       chai.request(app)
-        .post('/api/v1/books')
-        .send(book)
-        .end((err, res) => {
-          res.should.have.status(201);
-          expect(res.body).be.an('object');
-          expect(res.body.status).be.a('string');
-          assert.equal(res.body.status, 'success');
-          done();
-      });
-    });
-
-    it('No book found', (done) => {
-      chai.request(app)
-        .delete('/api/v1/books/1')
+        .delete('/api/v1/books/2')
         .end((err, res) => {
           res.should.have.status(200);
           expect(res.body).be.an('object');
@@ -209,6 +233,65 @@ describe('Book', () => {
       });
     });
     
+    it('No book found', (done) => {
+      chai.request(app)
+        .get('/api/v1/books/98')
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'error');
+          done();
+      });
+    });
+
+    it('Get a specific book', (done) => {
+      chai.request(app)
+        .get('/api/v1/books/1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          expect(res.body.status_code).be.a('number');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+
+    it('wrong address', (done) => {
+      chai.request(app)
+        .get('/apiv1/books/1')
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'Error');
+          done();
+      });
+    });
+
+    it('create book with string number', (done) => {
+      const book = {
+        name: 'Okobaba Victor',
+        country: 'Portugal',
+        isbn: 849959504-2,
+        release_date: '2019-07-24',
+        number_of_pages: 'lol',
+        authors: 'luke madu',
+        publisher: 'Idiot photo'
+      };
+      chai.request(app)
+        .post('/api/v1/books')
+        .send(book)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'error');
+          done();
+      });
+  });
+
 
 
 });
