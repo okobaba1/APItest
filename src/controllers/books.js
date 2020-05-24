@@ -65,7 +65,7 @@ const Books = {
             return res.status(201).json({
                 status_code: 201,
                 status: 'success',
-                data: postBook,
+                data: postBook[0],
             });
         } catch (error) {
             return res.status(500).json({
@@ -117,9 +117,8 @@ const Books = {
             }
             let newObj = {};
             Object.keys(req.body).filter(( item ) => req.body[item] && req.body[item].trim().length > 0)
-                        .forEach((item2)=> {newObj[item2] = req.body[item2]});
+                .forEach((item2)=> {newObj[item2] = req.body[item2]});
             
-            Object.keys(newObj)[0]
             const keys = Object.keys(newObj);
             const value = Object.values(newObj);
 
@@ -134,7 +133,7 @@ const Books = {
                     status_code: 200,
                     status: 'success',
                     message: `The book ${update[0].name} was updated successfully`,
-                    data: update,
+                    data: update[0],
                 });
 
             } 
@@ -173,9 +172,43 @@ const Books = {
             return res.status(200).json({
                 status_code: 204,
                 status: 'success',
-                message: `The book  was deleted successfully`,
+                message: `The book ${rows[0].name} was deleted successfully`,
                 data: [],
             });
+        } catch (error) {
+            return res.status(500).json({
+                status: 'error',
+                message: (error.message),
+            });
+        }
+    },
+
+    async getABook(req, res) {
+        try {
+            const { id } = req.params;
+            const checkBook = {
+                text: 'SELECT * FROM books where id = $1',
+                values: [id],
+            };
+            const { rows } = await db.query(checkBook);
+            if (!rows[0]) {
+                return res.status(404).json({
+                  status: 'error',
+                  error: 'No book found',
+                });
+            }
+            
+            const getBook = {
+                text: 'SELECT * FROM books WHERE id = $1',
+                values: [id],
+            };
+            const { rows: aBook } = await db.query(getBook);
+            return res.status(200).json({
+                status_code: 200,
+                status: 'success',
+                data: aBook[0],
+            });
+
         } catch (error) {
             return res.status(500).json({
                 status: 'error',

@@ -18,6 +18,7 @@ Router.get('/external-books', Books.external);
 Router.post('/v1/books', validator, validationHandler, Books.createBook);
 Router.get('/v1/books', Books.getAllbooks);
 Router.patch('/v1/books/:id', Books.updateBook);
-Router.delete('/v1/books/:id', Books.deleteBook)
+Router.delete('/v1/books/:id', Books.deleteBook);
+Router.get('/v1/books/:id', Books.getABook);
 
 export default Router;

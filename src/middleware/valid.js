@@ -8,7 +8,7 @@ const validator = [
   check('country').not().isEmpty().withMessage('Country should be inputed'),
   check('number_of_pages').not().isEmpty().withMessage('Number of pages field is empty'),
   check('release_date').not().isEmpty().withMessage('release date field cannot be empty.'),
-  check('number_of_pages').isNumeric().withMessage('Page numbers can only be numeric')
+  check('number_of_pages').isNumeric().withMessage('Page numbers can only be numeric'),
 ];
 
 const validationHandler = (req, res, next) => {
