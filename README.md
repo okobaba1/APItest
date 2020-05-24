@@ -7,7 +7,7 @@ Ice and Fire is a detailed app for books written from the popular HBO series Gam
 ### Required Features
 
 - User can view all/specific book from an external API
-        `GET http://localhost:8080/api/external-books?name=:nameOfABook`
+        `GET http://localhost:8080/api/external-books?name=:nameOfABook` OR
         `GET http://localhost:8080/api/external-books`
 
 - User can create a book in a local database
@@ -65,11 +65,11 @@ To setup Ice and Fire, These tools should be installed in your PC
 - Create a folder on your machine to house **_Ice and Fire_** on your machine
 - Open the directory
 - create a .env file with values for
-    DB_USER=postgres
-    DB_NAME=ice (*Also create a database called ice*)
-    DB_PASSWORD= (*your postgres user password*)
-    DB_PORT=5432
-    DB_TEST=testdb
+        - DB_USER=postgres
+        - DB_NAME=ice (*Also create a database called ice*)
+        - DB_PASSWORD= (*your postgres user password*)
+        - DB_PORT=5432
+        - DB_TEST=testdb
 
 
 
@@ -87,4 +87,4 @@ To setup Ice and Fire, These tools should be installed in your PC
 
 ### License
 
-This project is authored by [Blessing Makaraba](https://github.com/abobos) and is licensed to use under the MIT License - see the [License](https://github.com/Abobos/Property-Pro-Lite/blob/develop/LICENSE) file for details
+This project is authored by [Victor Okorie](https://github.com/okobaba1) 
