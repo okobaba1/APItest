@@ -116,5 +116,51 @@ describe('Book', () => {
         });
     });
 
+    it('Patch book detail', (done) => {
+      const detail = {
+        name: 'Oko Vic',
+      };
+      chai.request(app)
+        .patch('/api/v1/books/1')
+        .send(detail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          expect(res.body.status_code).be.a('number');
+          assert.equal(res.body.status, 'success');
+          done();
+      });
+    });
+
+
+    it('No book found', (done) => {
+      const detail = {
+        name: 'Oko Vic',
+      };
+      chai.request(app)
+        .patch('/api/v1/books/98')
+        .send(detail)
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'error');
+          done();
+      });
+    });
+
+    it('No input', (done) => {
+      chai.request(app)
+        .patch('/api/v1/books/1')
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body).be.an('object');
+          expect(res.body.status).be.a('string');
+          assert.equal(res.body.status, 'error');
+          done();
+      });
+    });
+
 
 });
